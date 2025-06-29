@@ -4,7 +4,24 @@ import AddIncome from "./components/AddIncome";
 import AddExpense from "./components/AddExpense";
 import ExpenseList from "./components/ExpenseList";
 
+const SECRET_KEY = "vivek123securekey";
+
 function App() {
+  const [authKey, setAuthKey] = useState(localStorage.getItem("authKey"));
+
+  useEffect(() => {
+    if (!authKey) {
+      const key = prompt("Enter access key:");
+      if (key === SECRET_KEY) {
+        localStorage.setItem("authKey", key);
+        setAuthKey(key);
+      } else {
+        alert("Access denied");
+        window.location.reload();
+      }
+    }
+  }, [authKey]);
+
   const clearAllData = () => {
     if (window.confirm("Are you sure you want to delete ALL records?")) {
       Promise.all([
@@ -36,20 +53,22 @@ function App() {
     }
   };
   return (
-    <>
-      <div className="container">
-        <h2 className="text-center my-4">Expense Tracker</h2>
-        <Summary />
-        <AddIncome />
-        <AddExpense />
-        <ExpenseList />
-      </div>
-      <div className="text-center my-4">
-        <button className="btn btn-danger" onClick={clearAllData}>
-          Delete All Records
-        </button>
-      </div>
-    </>
+    authKey && (
+      <>
+        <div className="container">
+          <h2 className="text-center my-4">Expense Tracker</h2>
+          <Summary />
+          <AddIncome />
+          <AddExpense />
+          <ExpenseList />
+        </div>
+        <div className="text-center my-4">
+          <button className="btn btn-danger" onClick={clearAllData}>
+            Delete All Records
+          </button>
+        </div>
+      </>
+    )
   );
 }
 

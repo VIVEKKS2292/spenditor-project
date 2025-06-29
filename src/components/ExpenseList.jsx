@@ -31,9 +31,10 @@ function ExpenseList() {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            {expenses && expenses.length > 0 ? (
-              expenses.map((e) => (
+
+          {expenses && expenses.length > 0 ? (
+            <tbody>
+              {expenses.map((e) => (
                 <tr key={e.id}>
                   <td>{e.date}</td>
                   <td>{e.category}</td>
@@ -48,13 +49,17 @@ function ExpenseList() {
                     </button>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <div className="mb-4">
-                <h6>No expenses to show</h6>
-              </div>
-            )}
-          </tbody>
+              ))}
+            </tbody>
+          ) : (
+            <tbody>
+              <tr>
+                <td colSpan="5" className="text-center">
+                  No expenses to show
+                </td>
+              </tr>
+            </tbody>
+          )}
         </table>
       </div>
     </div>
