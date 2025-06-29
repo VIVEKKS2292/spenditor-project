@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import Summary from "./components/Summary";
+import AddIncome from "./components/AddIncome";
+import AddExpense from "./components/AddExpense";
+import ExpenseList from "./components/ExpenseList";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const clearAllData = () => {
+    if (window.confirm("Are you sure you want to delete ALL records?")) {
+      Promise.all([
+        fetch("https://spenditor-json-server.onrender.com/expenses")
+          .then((res) => res.json())
+          .then((data) =>
+            Promise.all(
+              data.map((item) =>
+                fetch(
+                  `https://spenditor-json-server.onrender.com/expenses/${item.id}`,
+                  { method: "DELETE" }
+                )
+              )
+            )
+          ),
+        fetch("https://spenditor-json-server.onrender.com/income")
+          .then((res) => res.json())
+          .then((data) =>
+            Promise.all(
+              data.map((item) =>
+                fetch(
+                  `https://spenditor-json-server.onrender.com/income/${item.id}`,
+                  { method: "DELETE" }
+                )
+              )
+            )
+          ),
+      ]).then(() => window.location.reload());
+    }
+  };
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container">
+        <h2 className="text-center my-4">Expense Tracker</h2>
+        <Summary />
+        <AddIncome />
+        <AddExpense />
+        <ExpenseList />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <div className="text-center my-4">
+        <button className="btn btn-danger" onClick={clearAllData}>
+          Delete All Records
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
