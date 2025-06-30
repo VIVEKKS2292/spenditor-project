@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../constants";
 
 function ExpenseList() {
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
-    fetch("https://spenditor-json-server.onrender.com/expenses")
+    fetch(`${API_BASE_URL}/expenses`)
       .then((res) => res.json())
       .then((data) => setExpenses(data));
   }, []);
 
   const deleteExpense = (id) => {
-    fetch(`https://spenditor-json-server.onrender.com/expenses/${id}`, {
+    fetch(`${API_BASE_URL}/expenses/${id}`, {
       method: "DELETE",
     }).then(() => {
       setExpenses(expenses.filter((e) => e.id !== id));

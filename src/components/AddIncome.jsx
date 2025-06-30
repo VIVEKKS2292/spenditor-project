@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../constants";
 
 function AddIncome() {
   const [income, setIncome] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("https://spenditor-json-server.onrender.com/income", {
+    fetch(`${API_BASE_URL}/income`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

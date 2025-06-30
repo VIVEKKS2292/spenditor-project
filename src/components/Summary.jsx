@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../constants";
 
 function Summary() {
   const [expenses, setExpenses] = useState([]);
   const [incomes, setIncomes] = useState([]);
 
   useEffect(() => {
-    fetch("https://spenditor-json-server.onrender.com/expenses")
+    fetch(`${API_BASE_URL}/expenses`)
       .then((res) => res.json())
       .then(setExpenses);
-    fetch("https://spenditor-json-server.onrender.com/income")
+    fetch(`${API_BASE_URL}/income`)
       .then((res) => res.json())
       .then(setIncomes);
   }, []);

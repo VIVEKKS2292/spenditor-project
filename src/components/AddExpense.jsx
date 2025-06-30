@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../constants";
 
 function AddExpense() {
   const [form, setForm] = useState({
@@ -10,7 +11,7 @@ function AddExpense() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("https://spenditor-json-server.onrender.com/expenses", {
+    fetch(`${API_BASE_URL}/expenses`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),

@@ -1,0 +1,1 @@
+export const API_BASE_URL = "https://6862c0a296f0cc4e34badbcc.mockapi.io/spenditor";

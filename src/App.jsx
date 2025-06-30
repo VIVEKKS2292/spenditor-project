@@ -3,6 +3,7 @@ import Summary from "./components/Summary";
 import AddIncome from "./components/AddIncome";
 import AddExpense from "./components/AddExpense";
 import ExpenseList from "./components/ExpenseList";
+import { API_BASE_URL } from "./constants";
 
 const SECRET_KEY = "vivek123securekey";
 
@@ -25,27 +26,25 @@ function App() {
   const clearAllData = () => {
     if (window.confirm("Are you sure you want to delete ALL records?")) {
       Promise.all([
-        fetch("https://spenditor-json-server.onrender.com/expenses")
+        fetch(`${API_BASE_URL}/expenses`)
           .then((res) => res.json())
           .then((data) =>
             Promise.all(
               data.map((item) =>
-                fetch(
-                  `https://spenditor-json-server.onrender.com/expenses/${item.id}`,
-                  { method: "DELETE" }
-                )
+                fetch(`${API_BASE_URL}/expenses/${item.id}`, {
+                  method: "DELETE",
+                })
               )
             )
           ),
-        fetch("https://spenditor-json-server.onrender.com/income")
+        fetch(`${API_BASE_URL}/income`)
           .then((res) => res.json())
           .then((data) =>
             Promise.all(
               data.map((item) =>
-                fetch(
-                  `https://spenditor-json-server.onrender.com/income/${item.id}`,
-                  { method: "DELETE" }
-                )
+                fetch(`${API_BASE_URL}/income/${item.id}`, {
+                  method: "DELETE",
+                })
               )
             )
           ),
