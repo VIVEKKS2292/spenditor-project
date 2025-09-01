@@ -7,7 +7,9 @@ function ExpenseList() {
   useEffect(() => {
     fetch(`${API_BASE_URL}/expenses`)
       .then((res) => res.json())
-      .then((data) => setExpenses(data));
+      .then((data) =>
+        setExpenses(data.filter((expense) => expense.id !== "1"))
+      );
   }, []);
 
   const deleteExpense = (id) => {

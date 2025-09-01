@@ -4,21 +4,29 @@ import { API_BASE_URL } from "../constants";
 function AddExpense() {
   const [form, setForm] = useState({
     amount: "",
-    category: "",
+    category: "Lunch",
+    otherCategory: "",
     date: "",
     description: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const payload = {
+      ...form,
+      category: form.category === "Others" ? form.otherCategory : form.category,
+    };
+    delete payload.otherCategory;
+
     fetch(`${API_BASE_URL}/expenses`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify(payload),
     }).then(() =>
       setForm({
         amount: "",
-        category: "",
+        category: "Lunch",
+        otherCategory: "",
         date: "",
         description: "",
       })
@@ -28,7 +36,7 @@ function AddExpense() {
   return (
     <div>
       <form onSubmit={handleSubmit} className="row g-3 mb-4">
-        <div className="col-md-3">
+        <div className="col-md-2">
           <input
             type="number"
             placeholder="Amount"
@@ -38,17 +46,37 @@ function AddExpense() {
             required
           />
         </div>
-        <div className="col-md-3">
-          <input
-            type="text"
-            placeholder="Category"
-            className="form-control"
+        <div className="col-md-2">
+          <select
+            className="form-select"
             value={form.category}
             onChange={(e) => setForm({ ...form, category: e.target.value })}
             required
-          />
+          >
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Amma">Amma</option>
+            <option value="Celebration">Celebration</option>
+            <option value="Just Chumma">Just Chumma</option>
+            <option value="Others">Others</option>
+          </select>
         </div>
-        <div className="col-md-3">
+        {form.category === "Others" && (
+          <div className="col-md-2">
+            <input
+              type="text"
+              placeholder="Specify category"
+              className="form-control"
+              value={form.otherCategory}
+              onChange={(e) =>
+                setForm({ ...form, otherCategory: e.target.value })
+              }
+              required
+            />
+          </div>
+        )}
+        <div className="col-md-2">
           <input
             type="date"
             className="form-control"
@@ -57,7 +85,7 @@ function AddExpense() {
             required
           />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-2">
           <input
             type="text"
             placeholder="Description"
@@ -66,7 +94,7 @@ function AddExpense() {
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
         </div>
-        <div className="col-md-12 text-center">
+        <div className="col-auto">
           <button className="btn btn-primary">Add Expense</button>
         </div>
       </form>
