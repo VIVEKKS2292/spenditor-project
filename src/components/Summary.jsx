@@ -20,6 +20,7 @@ function Summary() {
     .reduce((sum, i) => sum + parseFloat(i.amount), 0);
   const totalExpense = expenses
     .filter((expense) => expense.category !== "Amma") // Exclude Amma category from expenses
+    .filter((expense) => expense.id !== "2") // Exclude Converted to Cash record
     .reduce((sum, i) => sum + parseFloat(i.amount), 0);
   const balance = totalIncome - totalExpense;
 

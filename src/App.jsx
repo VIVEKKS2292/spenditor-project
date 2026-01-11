@@ -7,6 +7,7 @@ import AddExpense from "./components/AddExpense";
 import ExpenseList from "./components/ExpenseList";
 import IncomeList from "./components/IncomeList";
 import AmmaBalance from "./components/AmmaBalance";
+import ConvertedToCash from "./components/ConvertedToCash";
 import { API_BASE_URL } from "./constants";
 
 const SECRET_KEY = "vivek123securekey";
@@ -30,29 +31,18 @@ function App() {
   const clearAllData = () => {
     if (window.confirm("Are you sure you want to delete ALL records?")) {
       Promise.all([
-        // Reset Amma balance to 0 instead of deleting
-        fetch(`${API_BASE_URL}/expenses/1`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            amount: "0",
-            category: "Amma",
-            description: "Amma",
-            id: "1",
-          }),
-        }),
-        // Delete all other expenses except Amma (id: 1)
+        // Delete all expenses except Amma (id: 1) and Converted to Cash (id: 2)
         fetch(`${API_BASE_URL}/expenses`)
           .then((res) => res.json())
           .then((data) =>
             Promise.all(
               data
-                .filter((item) => item.id !== "1")
-                .map((item) =>
-                  fetch(`${API_BASE_URL}/expenses/${item.id}`, {
-                    method: "DELETE",
-                  })
-                )
+          .filter((item) => item.id !== "1" && item.id !== "2")
+          .map((item) =>
+            fetch(`${API_BASE_URL}/expenses/${item.id}`, {
+              method: "DELETE",
+            })
+          )
             )
           ),
         // Delete all income records
@@ -133,6 +123,14 @@ function App() {
               transition={{ delay: 0.7 }}
             >
               <ExpenseList />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75 }}
+            >
+              <ConvertedToCash />
             </motion.div>
 
             <motion.div

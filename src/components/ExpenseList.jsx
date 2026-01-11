@@ -8,7 +8,7 @@ function ExpenseList() {
     fetch(`${API_BASE_URL}/expenses`)
       .then((res) => res.json())
       .then((data) =>
-        setExpenses(data.filter((expense) => expense.id !== "1"))
+      setExpenses(data.filter((expense) => expense.id !== "1" && expense.id !== "2"))
       );
   }, []);
 

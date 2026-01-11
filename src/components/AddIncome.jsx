@@ -7,6 +7,7 @@ function AddIncome() {
     date: new Date().toISOString().split("T")[0],
     category: "Salary",
     otherCategory: "",
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -26,6 +27,7 @@ function AddIncome() {
         formData.category === "Others"
           ? formData.otherCategory
           : formData.category,
+      description: formData.description,
     };
 
     fetch(`${API_BASE_URL}/income`, {
@@ -38,6 +40,7 @@ function AddIncome() {
         date: new Date().toISOString().split("T")[0],
         category: "Salary",
         otherCategory: "",
+        description: "",
       });
     });
   };
@@ -45,7 +48,7 @@ function AddIncome() {
   return (
     <form onSubmit={handleSubmit} className="mb-3">
       <div className="row g-3">
-        <div className="col-md-3">
+        <div className="col-md-2">
           <input
             type="number"
             placeholder="Add Income"
@@ -56,7 +59,7 @@ function AddIncome() {
             required
           />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-2">
           <input
             type="date"
             className="form-control"
@@ -66,7 +69,7 @@ function AddIncome() {
             required
           />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-2">
           <select
             className="form-select"
             name="category"
@@ -92,6 +95,16 @@ function AddIncome() {
             />
           </div>
         )}
+        <div className="col-md-2">
+          <input
+            type="text"
+            placeholder="Description"
+            className="form-control"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
         <div className="col-auto">
           <button className="btn btn-success">Add</button>
         </div>

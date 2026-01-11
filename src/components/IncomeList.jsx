@@ -9,6 +9,7 @@ function IncomeList() {
     date: "",
     category: "",
     otherCategory: "",
+    description: "",
   });
 
   useEffect(() => {
@@ -38,6 +39,7 @@ function IncomeList() {
       otherCategory: ["Salary", "Refund"].includes(income.category)
         ? ""
         : income.category,
+      description: income.description || "",
     });
   };
 
@@ -74,6 +76,7 @@ function IncomeList() {
             <tr>
               <th>Date</th>
               <th>Category</th>
+              <th>Description</th>
               <th>Amount</th>
               <th>Actions</th>
             </tr>
@@ -126,6 +129,20 @@ function IncomeList() {
                       </td>
                       <td>
                         <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Description"
+                          value={editForm.description}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              description: e.target.value,
+                            })
+                          }
+                        />
+                      </td>
+                      <td>
+                        <input
                           type="number"
                           className="form-control"
                           value={editForm.amount}
@@ -153,6 +170,7 @@ function IncomeList() {
                     <>
                       <td>{income.date}</td>
                       <td>{income.category}</td>
+                      <td>{income.description || "-"}</td>
                       <td>₹{income.amount}</td>
                       <td>
                         <button
@@ -176,7 +194,7 @@ function IncomeList() {
           ) : (
             <tbody>
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan="5" className="text-center">
                   No income records to show
                 </td>
               </tr>

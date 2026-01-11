@@ -59,6 +59,8 @@ function AddExpense() {
             <option value="Amma">Amma</option>
             <option value="Celebration">Celebration</option>
             <option value="Just Chumma">Just Chumma</option>
+            <option value="Weekly Expenses">Weekly Expenses</option>
+            <option value="Monthly Expenses">Monthly Expenses</option>
             <option value="Others">Others</option>
           </select>
         </div>
